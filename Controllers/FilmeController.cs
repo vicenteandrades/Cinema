@@ -4,6 +4,7 @@ using APIFilmeStudy.Model;
 using APIFilmeStudy.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIFilmeStudy.Controllers;
@@ -74,13 +75,32 @@ public class FilmeController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    [HttpPatch("{id}")]
+    public ActionResult Patch(int id, JsonPatchDocument<SendFilmeDto> patch)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid) 
         {
             return BadRequest(ModelState);
         }
+
+        var filme = _repository.GetById(id);
+        var filmeDto = _mapper.Map<SendFilmeDto>(filme);
+
+        if(filme is null)
+        {
+            return NotFound("Não encontramos o filme");
+        }
+
+        patch.ApplyTo(filmeDto);
+
+        _mapper.Map(filmeDto, filme);
+        _repository.Commit();
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult Delete(int id)
+    {
 
         var findFilme = _repository.GetById(id);
         if (findFilme is null)

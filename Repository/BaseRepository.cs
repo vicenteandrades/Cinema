@@ -59,6 +59,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return false;
     }
 
-
+    public void Commit()
+    {
+        _context.SaveChanges();
+    }
 }
 
