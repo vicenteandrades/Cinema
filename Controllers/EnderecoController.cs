@@ -31,7 +31,7 @@ public class EnderecoController : ControllerBase
         return (listDto.Any()) ? Ok(listDto) : NotFound("Ainda não há endereços cadastrados!"); 
     }
 
-    [HttpGet ("{int}", Name = "GetEnderecoId")]
+    [HttpGet ("{id}", Name = "GetEnderecoId")]
     public async Task<ActionResult<ReadEnderecoDto>> GetByIdAsync(int id)
     {
         var endereco = _repository.GetByIdAsync(id);
