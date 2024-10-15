@@ -1,5 +1,5 @@
-﻿using APIFilmeStudy.DTO;
-using APIFilmeStudy.DTO.Read;
+﻿using APIFilmeStudy.DTO.Read;
+using APIFilmeStudy.DTO.Send;
 using APIFilmeStudy.Model;
 using APIFilmeStudy.Repository;
 using AutoMapper;

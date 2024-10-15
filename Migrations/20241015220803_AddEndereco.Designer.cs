@@ -2,6 +2,7 @@
 using APIFilmeStudy.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIFilmeStudy.Migrations
 {
     [DbContext(typeof(FilmeContext))]
-    partial class FilmeContextModelSnapshot : ModelSnapshot
+    [Migration("20241015220803_AddEndereco")]
+    partial class AddEndereco
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,11 +26,11 @@ namespace APIFilmeStudy.Migrations
 
             modelBuilder.Entity("APIFilmeStudy.Model.Endereco", b =>
                 {
-                    b.Property<int>("EnderecoId")
+                    b.Property<int>("CinemaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EnderecoId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CinemaId"));
 
                     b.Property<string>("Logradouro")
                         .IsRequired()
@@ -36,7 +39,7 @@ namespace APIFilmeStudy.Migrations
                     b.Property<int>("Numero")
                         .HasColumnType("integer");
 
-                    b.HasKey("EnderecoId");
+                    b.HasKey("CinemaId");
 
                     b.ToTable("Endereco");
                 });

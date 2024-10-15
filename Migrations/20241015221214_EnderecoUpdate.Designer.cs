@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIFilmeStudy.Migrations
 {
     [DbContext(typeof(FilmeContext))]
-    [Migration("20241015000600_DataBaseFirst")]
-    partial class DataBaseFirst
+    [Migration("20241015221214_EnderecoUpdate")]
+    partial class EnderecoUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,26 @@ namespace APIFilmeStudy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("APIFilmeStudy.Model.Endereco", b =>
+                {
+                    b.Property<int>("EnderecoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EnderecoId"));
+
+                    b.Property<string>("Logradouro")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EnderecoId");
+
+                    b.ToTable("Endereco");
+                });
 
             modelBuilder.Entity("APIFilmeStudy.Model.Filme", b =>
                 {

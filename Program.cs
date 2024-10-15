@@ -12,8 +12,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FilmeContext>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<FilmeRepository>();
+builder.Services.AddScoped<EnderecoRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<FilmeProfile>();
+builder.Services.AddScoped<EnderecoProfile>();
 
 var app = builder.Build();
 

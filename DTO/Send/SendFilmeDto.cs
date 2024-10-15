@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace APIFilmeStudy.DTO.Read;
+namespace APIFilmeStudy.DTO.Send;
 public class SendFilmeDto
 {
     public string? Titulo { get; set; }
