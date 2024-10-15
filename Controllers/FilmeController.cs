@@ -1,5 +1,8 @@
-﻿using APIFilmeStudy.Model;
+﻿using APIFilmeStudy.DTO;
+using APIFilmeStudy.DTO.Read;
+using APIFilmeStudy.Model;
 using APIFilmeStudy.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,41 +12,49 @@ namespace APIFilmeStudy.Controllers;
 public class FilmeController : ControllerBase
 {
     private readonly FilmeRepository _repository;
+    private readonly IMapper _mapper;
 
-    public FilmeController(FilmeRepository repository)
+    public FilmeController(FilmeRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Filme>>> GetAsync()
+    public async Task<ActionResult<IEnumerable<ReadFilmeDto>>> GetAsync()
     {
         var list = await _repository.GetAsync();
 
-        return (list.Any()) ? Ok(list) : NotFound("Ainda não temos filmes cadastrados, volte em breve!");
+        var listDto = _mapper.Map<IEnumerable<ReadFilmeDto>>(list);
+
+        return (listDto.Any()) ? Ok(listDto) : NotFound("Ainda não temos filmes cadastrados, volte em breve!");
     }
 
     [HttpGet("{id}", Name = "GetFilmeId")]
-    public async Task<ActionResult<Filme>> GetByIdAsync(int id)
+    public async Task<ActionResult<ReadFilmeDto>> GetByIdAsync(int id)
     {
         var filme = await _repository.GetByIdAsync(id);
-        return (filme is not null) ? Ok(filme) : NotFound();
+        var filmeDto = _mapper.Map<ReadFilmeDto>(filme);
+
+        return (filmeDto is not null) ? Ok(filmeDto) : NotFound();
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody] Filme filme)
+    public ActionResult Post([FromBody] SendFilmeDto filmeDto)
     {
         if(!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
+        var filme = _mapper.Map<Filme>(filmeDto);
+
         _repository.Create(filme);
         return CreatedAtRoute("GetFilmeId", new { id = filme.FilmeId}, filme);
     }
 
     [HttpPut("{id}")]
-    public ActionResult Put(int id, [FromBody] Filme filme)
+    public ActionResult Put(int id, [FromBody] SendFilmeDto filmeDto)
     {
         if (!ModelState.IsValid)
         {
@@ -57,9 +68,7 @@ public class FilmeController : ControllerBase
             return NotFound();
         }
 
-        findFilme.Titulo = filme.Titulo;
-        findFilme.Genero = filme.Genero;
-        findFilme.Duracao = filme.Duracao;
+        _mapper.Map(filmeDto, findFilme);
 
         _repository.Update(findFilme);
         return Ok();
