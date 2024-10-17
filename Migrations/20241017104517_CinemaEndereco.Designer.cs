@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIFilmeStudy.Migrations
 {
     [DbContext(typeof(FilmeContext))]
-    [Migration("20241015225059_AddCinema")]
-    partial class AddCinema
+    [Migration("20241017104517_CinemaEndereco")]
+    partial class CinemaEndereco
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,11 +32,17 @@ namespace APIFilmeStudy.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CinemaId"));
 
+                    b.Property<int>("EnderecoId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("CinemaId");
+
+                    b.HasIndex("EnderecoId")
+                        .IsUnique();
 
                     b.ToTable("Cinema");
                 });
@@ -83,6 +89,22 @@ namespace APIFilmeStudy.Migrations
                     b.HasKey("FilmeId");
 
                     b.ToTable("Filme");
+                });
+
+            modelBuilder.Entity("APIFilmeStudy.Model.Cinema", b =>
+                {
+                    b.HasOne("APIFilmeStudy.Model.Endereco", "Endereco")
+                        .WithOne("Cinema")
+                        .HasForeignKey("APIFilmeStudy.Model.Cinema", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Endereco");
+                });
+
+            modelBuilder.Entity("APIFilmeStudy.Model.Endereco", b =>
+                {
+                    b.Navigation("Cinema");
                 });
 #pragma warning restore 612, 618
         }

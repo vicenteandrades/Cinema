@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIFilmeStudy.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEndereco : Migration
+    public partial class CinemaEndereco : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,14 +15,14 @@ namespace APIFilmeStudy.Migrations
                 name: "Endereco",
                 columns: table => new
                 {
-                    CinemaId = table.Column<int>(type: "integer", nullable: false)
+                    EnderecoId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Logradouro = table.Column<string>(type: "text", nullable: false),
                     Numero = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Endereco", x => x.CinemaId);
+                    table.PrimaryKey("PK_Endereco", x => x.EnderecoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,16 +39,45 @@ namespace APIFilmeStudy.Migrations
                 {
                     table.PrimaryKey("PK_Filme", x => x.FilmeId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Cinema",
+                columns: table => new
+                {
+                    CinemaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    EnderecoId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cinema", x => x.CinemaId);
+                    table.ForeignKey(
+                        name: "FK_Cinema_Endereco_EnderecoId",
+                        column: x => x.EnderecoId,
+                        principalTable: "Endereco",
+                        principalColumn: "EnderecoId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cinema_EnderecoId",
+                table: "Cinema",
+                column: "EnderecoId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Endereco");
+                name: "Cinema");
 
             migrationBuilder.DropTable(
                 name: "Filme");
+
+            migrationBuilder.DropTable(
+                name: "Endereco");
         }
     }
 }

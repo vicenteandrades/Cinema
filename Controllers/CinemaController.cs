@@ -24,7 +24,7 @@ public class CinemaController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ReadCinemaDto>>> GetAsync()
     {
-        var list = await _repository.GetAsync();
+        var list = await _repository.GetWithAddress();
 
         var listDto = _mapper.Map<IEnumerable<ReadCinemaDto>>(list);
 

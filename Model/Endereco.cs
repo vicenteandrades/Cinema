@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace APIFilmeStudy.Model;
 public class Endereco
@@ -8,5 +9,7 @@ public class Endereco
     [Required]
     public string? Logradouro { get; set; }
     public int Numero { get; set; }
+    [JsonIgnore]
+    public virtual Cinema? Cinema { get; set; }
 }
 
