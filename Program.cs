@@ -14,10 +14,12 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<FilmeRepository>();
 builder.Services.AddScoped<EnderecoRepository>();
 builder.Services.AddScoped<CinemaRepository>();
+builder.Services.AddScoped<SessaoRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<FilmeProfile>();
 builder.Services.AddScoped<EnderecoProfile>();
 builder.Services.AddScoped<CinemaProfile>();
+builder.Services.AddScoped<SessaoProfile>();
 
 var app = builder.Build();
 

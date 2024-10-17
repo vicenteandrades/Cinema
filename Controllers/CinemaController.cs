@@ -34,7 +34,7 @@ public class CinemaController : ControllerBase
     [HttpGet("{id}", Name = "GetCinemaId")]
     public async Task<ActionResult<ReadCinemaDto>> GetByIdAsync(int id)
     {
-        var cinema = _repository.GetByIdAsync(id);
+        var cinema = await _repository.GetByIdAsync(id);
 
         var cinemaDto = _mapper.Map<ReadCinemaDto>(cinema);
 

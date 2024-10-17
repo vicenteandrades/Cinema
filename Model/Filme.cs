@@ -11,5 +11,6 @@ public class Filme
     public string Genero { get; set; }
     [Required]
     public int Duracao { get; set; }
+    public ICollection<Sessao>? Sessoes { get; set; }
 }
 
