@@ -1,6 +1,8 @@
 using APIFilmeStudy.Context;
+using APIFilmeStudy.Model;
 using APIFilmeStudy.Profile;
 using APIFilmeStudy.Repository;
+using Microsoft.AspNetCore.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<FilmeContext>()
+    .AddDefaultTokenProviders();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FilmeContext>();
@@ -21,6 +29,8 @@ builder.Services.AddScoped<FilmeProfile>();
 builder.Services.AddScoped<EnderecoProfile>();
 builder.Services.AddScoped<CinemaProfile>();
 builder.Services.AddScoped<SessaoProfile>();
+builder.Services.AddScoped<UserProfile>();
+
 
 var app = builder.Build();
 

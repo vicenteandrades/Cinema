@@ -1,9 +1,10 @@
 ﻿using APIFilmeStudy.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
 namespace APIFilmeStudy.Context;
-public class FilmeContext : DbContext
+public class FilmeContext : IdentityDbContext<User>
 {
     public NpgsqlConnection Connect { get; set; }
 
@@ -27,5 +28,6 @@ public class FilmeContext : DbContext
 	public DbSet<Endereco> Endereco { get; set; }
 	public DbSet<Cinema> Cinema { get; set; }
 	public DbSet<Sessao> Sessao { get; set; }
+	public DbSet<User> User { get; set; }
 }
 
