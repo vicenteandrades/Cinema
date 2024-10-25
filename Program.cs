@@ -2,6 +2,7 @@ using APIFilmeStudy.Context;
 using APIFilmeStudy.Model;
 using APIFilmeStudy.Profile;
 using APIFilmeStudy.Repository;
+using APIFilmeStudy.Services;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -30,6 +31,7 @@ builder.Services.AddScoped<EnderecoProfile>();
 builder.Services.AddScoped<CinemaProfile>();
 builder.Services.AddScoped<SessaoProfile>();
 builder.Services.AddScoped<UserProfile>();
+builder.Services.AddScoped<UserService>();
 
 
 var app = builder.Build();

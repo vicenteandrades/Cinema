@@ -1,5 +1,6 @@
 ﻿using APIFilmeStudy.DTO.Send;
 using APIFilmeStudy.Model;
+using APIFilmeStudy.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,21 +11,37 @@ namespace APIFilmeStudy.Controllers;
 [Route("[Controller]")]
 public class UserController : ControllerBase
 {
-	private readonly IMapper _mapper;
-    private readonly UserManager<User> _userManager;
-    public UserController(IMapper mapper, UserManager<User> userManager)
+    private UserService _userService;
+
+    public UserController(UserService userService)
     {
-        _mapper = mapper;
-        _userManager = userManager;
+        _userService = userService;
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Post([FromBody] SendUserDto userDto)
+    [HttpPost("/create")]
+    public async Task<ActionResult> PostAsync([FromBody] SendUserDto dto)
     {
-        var user = _mapper.Map<User>(userDto);
-        IdentityResult result = await _userManager.CreateAsync(user, userDto.Password);
-    
-        return (result.Succeeded) ? Ok("Criado com sucesso") : BadRequest(ModelState);
+        if (!ModelState.IsValid)
+        { 
+            return BadRequest(ModelState);
+        }
+
+        await _userService.CreateUserAsync(dto);
+        return Ok("Criado com sucesso");
+    }
+
+    [HttpPost("/login")]
+
+    public async Task<ActionResult> PostLoginAsync([FromBody] SendLoginDto dto)
+    {
+        if (!ModelState.IsValid) 
+        {
+            return BadRequest(ModelState);
+        }
+
+        await _userService.LoginAsync(dto);
+        return Ok("Autenticado com sucesso!");
+
     }
 
 }
