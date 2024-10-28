@@ -39,8 +39,8 @@ public class UserController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        await _userService.LoginAsync(dto);
-        return Ok("Autenticado com sucesso!");
+        var token = await _userService.LoginAsync(dto);
+        return Ok(token);
 
     }
 

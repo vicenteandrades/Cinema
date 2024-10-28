@@ -32,6 +32,7 @@ builder.Services.AddScoped<CinemaProfile>();
 builder.Services.AddScoped<SessaoProfile>();
 builder.Services.AddScoped<UserProfile>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<TokenService>();
 
 
 var app = builder.Build();

@@ -34,7 +34,7 @@ public class EnderecoController : ControllerBase
     [HttpGet ("{id}", Name = "GetEnderecoId")]
     public async Task<ActionResult<ReadEnderecoDto>> GetByIdAsync(int id)
     {
-        var endereco = _repository.GetByIdAsync(id);
+        var endereco = await _repository.GetByIdAsync(id);
 
         var enderecoDto = _mapper.Map<ReadFilmeDto>(endereco);
 
